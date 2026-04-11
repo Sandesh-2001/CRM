@@ -1,0 +1,38 @@
+<div
+  class="app-layout"
+  [class.sidebar-collapsed]="sidebarCollapsed"
+  [class.sidebar-open]="sidebarOpen"
+  [class.auth-page]="!(currentUser$ | async)"
+>
+  <!-- Sidebar -->
+  <app-sidebar
+    [collapsed]="sidebarCollapsed"
+    *ngIf="currentUser$ | async"
+    (collapsedChange)="sidebarCollapsed = $event"
+  >
+  </app-sidebar>
+
+  <!-- Mobile overlay -->
+  <div
+    class="sidebar-overlay"
+    *ngIf="sidebarOpen && (currentUser$ | async)"
+    (click)="sidebarOpen = false"
+  ></div>
+
+  <!-- Main content area -->
+  <div class="main-content" [class.auth-page]="!(currentUser$ | async)">
+    <!-- Top navbar -->
+    <app-top-navbar
+      *ngIf="currentUser$ | async"
+      [pageTitle]="currentPageTitle"
+      [pageSubtitle]="currentPageSubtitle"
+      (toggleSidebar)="toggleSidebar()"
+    >
+    </app-top-navbar>
+
+    <!-- Page content -->
+    <main class="page-content">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>

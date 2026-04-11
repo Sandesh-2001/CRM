@@ -1,0 +1,21 @@
+version: "3.8"
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: crm-mongodb
+    environment:
+      MONGO_INITDB_DATABASE: crm
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - crm-network
+
+volumes:
+  mongodb_data:
+
+networks:
+  crm-network:
+    driver: bridge
