@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ApiResponse } from '../models/contact.model';
 import { Deal, DealMetaResponse, DealStage } from '../models/deal.model';
+import { environment } from '../../environments/environment';
 
 export interface DealQueryOptions {
   stage?: DealStage | '';
