@@ -9,6 +9,7 @@ const dealRoutes = require("./src/routes/dealRoutes");
 const activityRoutes = require("./src/routes/activityRoutes");
 const authRoutes = require("./src/routes/authRoutes");
 const dashboardRoutes = require("./src/routes/dashboardRoutes");
+const seedRoutes = require("./src/routes/seedRoutes");
 const { verifyToken } = require("./src/middleware/authMiddleware");
 const errorHandler = require("./src/middleware/errorHandler");
 
@@ -45,6 +46,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Routes
 // Public auth routes
 app.use("/api/auth", authRoutes);
+
+// Seed routes (protected with SEED_KEY)
+app.use("/api/admin", seedRoutes);
 
 // Protected dashboard routes
 app.use("/api/dashboard", verifyToken, dashboardRoutes);
