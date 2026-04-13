@@ -18,9 +18,14 @@ const app = express();
 connectDB();
 
 // CORS configuration
-const allowedOrigins = (process.env.CORS_ORIGINS || "http://localhost:4200")
+const corsOrigins =
+  process.env.CORS_ORIGINS ||
+  process.env.CORS_ORIGIN ||
+  "http://localhost:4200";
+const allowedOrigins = corsOrigins
   .split(",")
-  .map((origin) => origin.trim());
+  .map((origin) => origin.trim())
+  .filter(Boolean);
 
 const corsOptions = {
   origin: (origin, callback) => {
