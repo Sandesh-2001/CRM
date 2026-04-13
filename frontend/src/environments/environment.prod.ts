@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://crm-bhrb.onrender.com',
+  apiUrl: 'https://crm-bhrb.onrender.com/api',
 };
