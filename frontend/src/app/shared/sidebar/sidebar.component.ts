@@ -14,7 +14,7 @@ interface NavItem {
   standalone: true,
   imports: [CommonModule, RouterLink, RouterLinkActive],
   template: `
-    <aside class="sidebar" [class.collapsed]="collapsed">
+    <aside class="sidebar" [class.collapsed]="collapsed" [class.open]="open">
       <div class="sidebar-header">
         <div class="logo">
           <div class="logo-icon">📊</div>
@@ -47,6 +47,7 @@ interface NavItem {
               routerLinkActive="active"
               class="nav-link"
               [attr.aria-label]="item.label"
+              (click)="onNavClick()"
             >
               <span class="nav-icon">{{ item.icon }}</span>
               <span class="nav-label" *ngIf="!collapsed">{{ item.label }}</span>
@@ -311,7 +312,9 @@ interface NavItem {
 })
 export class SidebarComponent {
   @Input() collapsed = false;
+  @Input() open = false;
   @Output() collapsedChange = new EventEmitter<boolean>();
+  @Output() closeMobileMenu = new EventEmitter<void>();
 
   navItems: NavItem[] = [
     { label: 'Dashboard', route: '/dashboard', icon: '📊' },
@@ -333,6 +336,12 @@ export class SidebarComponent {
   toggleSidebar(): void {
     this.collapsed = !this.collapsed;
     this.collapsedChange.emit(this.collapsed);
+  }
+
+  onNavClick(): void {
+    if (window.innerWidth <= 768 && this.open) {
+      this.closeMobileMenu.emit();
+    }
   }
 
   logout(): void {

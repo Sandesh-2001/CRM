@@ -7,8 +7,10 @@
   <!-- Sidebar -->
   <app-sidebar
     [collapsed]="sidebarCollapsed"
+    [open]="sidebarOpen"
     *ngIf="currentUser$ | async"
     (collapsedChange)="sidebarCollapsed = $event"
+    (closeMobileMenu)="sidebarOpen = false"
   >
   </app-sidebar>
 
