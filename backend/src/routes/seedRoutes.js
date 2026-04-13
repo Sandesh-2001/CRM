@@ -12,8 +12,30 @@ router.post("/seed-database", async (req, res) => {
   try {
     // Basic security check - use env variable for seed key
     const seedKey = req.headers["x-seed-key"];
-    if (seedKey !== process.env.SEED_KEY) {
-      return res.status(401).json({ error: "Unauthorized: Invalid seed key" });
+    const expectedKey = process.env.SEED_KEY;
+
+    // Debug logging (remove in production)
+    console.log("Received seed key:", seedKey);
+    console.log("Expected seed key:", expectedKey);
+
+    // Trim whitespace and compare
+    if (
+      !seedKey ||
+      seedKey.trim() !== (expectedKey ? expectedKey.trim() : "")
+    ) {
+      console.log(
+        "Key mismatch - Received:",
+        JSON.stringify(seedKey),
+        "Expected:",
+        JSON.stringify(expectedKey),
+      );
+      return res.status(401).json({
+        error: "Unauthorized: Invalid seed key",
+        debug: {
+          received: seedKey,
+          expected: expectedKey,
+        },
+      });
     }
 
     // Clear existing data
